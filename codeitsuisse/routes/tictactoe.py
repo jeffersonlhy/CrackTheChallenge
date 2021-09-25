@@ -125,7 +125,7 @@ def evaluateTic():
         return board[coord[0]][coord[1]] != 0
 
     def minimax(board, depth, player):
-        if player == COMP:
+        if player == ME:
             best = [-1, -1, -infinity]
         else:
             best = [-1, -1, +infinity]
@@ -141,7 +141,7 @@ def evaluateTic():
             board[x][y] = 0
             score[0], score[1] = x, y
 
-            if player == COMP:
+            if player == ME:
                 if score[2] > best[2]:
                     best = score  # max value
             else:
@@ -172,8 +172,9 @@ def evaluateTic():
 
         elif 'player' in gameEvent and 'action' in gameEvent:
             if 'position' not in gameEvent:
+                logging.info(f"Flip Table.")
                 requests.post(playUrl, data={"action": "(╯°□°)╯︵ ┻━┻"})
-                continue
+                break
             boardNewMove = getCoordPos(gameEvent['position'], actionToCoord)
             # Flip Table
             if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove, board):
