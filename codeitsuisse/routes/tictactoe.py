@@ -136,9 +136,9 @@ def evaluateTic():
 
         for cell in empty_cells(board):
             x, y = cell[0], cell[1]
-            board[x][y] = player
+            board[x][y] = player # make my move
             score = minimax(board, depth - 1, -player)
-            board[x][y] = 0
+            board[x][y] = 0 # return to initial state
             score[0], score[1] = x, y
 
             if player == ME:
@@ -165,7 +165,8 @@ def evaluateTic():
         # primary move
         if 'youAre' in gameEvent and gameEvent['youAre'] == "O":
             logging.info(f"I am O.")
-            requests.post(playUrl, data={"action": "putSymbol","position": "C"})
+            board[1][1] = ME
+            requests.post(playUrl, data={"action": "putSymbol", "position": "C"})
         elif 'youAre' in gameEvent and gameEvent['youAre'] == "X":
             logging.info(f"I am the second player.")
             continue
@@ -184,10 +185,12 @@ def evaluateTic():
                 row, col = boardNewMove
                 board[row][col] = COMP
                 boardForCal = board.copy()
+                logging.info(f"Before MiniMax after component moved {board}")
                 move = minimax(boardForCal, 8, ME)
                 logging.info(f"myNewMove {move}")
                 myMove_row, myMove_col = move[0], move[1]
                 board[myMove_row][myMove_col] = ME
+                logging.info(f"After MiniMax after I moved {board}")
                 # update to server
                 boardPosStr = getBoardPosStr((myMove_row, myMove_col))
                 logging.info(f"Sending response. Position: {boardPosStr}")
