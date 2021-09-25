@@ -175,6 +175,9 @@ def evaluateTic():
             continue
 
         elif 'player' in gameEvent and 'action' in gameEvent:
+            if 'position' not in gameEvent:
+                requests.post(playUrl, data=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
+                continue
             boardNewMove = getCoordPos(gameEvent['position'], actionToCoord)
             # Flip Table
             if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove, board):
