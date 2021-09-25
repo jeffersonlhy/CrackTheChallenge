@@ -187,6 +187,7 @@ def evaluateTic():
             if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove, board):
                 logging.info(f"Flip Table.")
                 requests.post(playUrl, data={"action": "(╯°□°)╯︵ ┻━┻"})
+                break
             else:
                 row, col = boardNewMove
                 board[row][col] = COMP
@@ -207,6 +208,7 @@ def evaluateTic():
         else:
             logging.info(f"Unknown incoming response {event.data}")
             requests.post(playUrl, data={"action": "(╯°□°)╯︵ ┻━┻"})
+            break
     return json.dumps({'result': "ended"})
 
 
