@@ -174,7 +174,7 @@ def evaluateTic():
             logging.info(f"I am the second player.")
             continue
 
-        elif 'player' in gameEvent and 'action' in gameEvent and 'position' in gameEvent:
+        elif 'player' in gameEvent and 'action' in gameEvent:
             boardNewMove = getCoordPos(gameEvent['position'], actionToCoord)
             # Flip Table
             if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove):
@@ -196,6 +196,7 @@ def evaluateTic():
             
         else:
             logging.info(f"Unknown incoming response {event.data}")
+            requests.post(playUrl, data=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
     return json.dumps({'result': "ended"})
 
 
