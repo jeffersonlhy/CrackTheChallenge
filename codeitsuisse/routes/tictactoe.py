@@ -100,13 +100,13 @@ def evaluateTic():
 
     def evaluate(board):
         if wins(board, ME):
-            logging.info(f"EVALUATION: I won: {board}")
+            # logging.info(f"EVALUATION: I won: {board}")
             return 1
         elif wins(board, COMP):
-            logging.info(f"EVALUATION: AI won: {board}")
+            # logging.info(f"EVALUATION: AI won: {board}")
             return -1
         else:
-            logging.info(f"EVALUATION: DRAW {board}")
+            # logging.info(f"EVALUATION: DRAW {board}")
             return 0
 
     def empty_cells(state):
