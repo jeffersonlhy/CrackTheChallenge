@@ -193,7 +193,7 @@ def evaluateTic():
                 logging.info(f"After MiniMax after I moved {board}")
                 # update to server
                 boardPosStr = getBoardPosStr((myMove_row, myMove_col))
-                logging.info(f"Sending response. Position: {boardPosStr}")
+                logging.info({"action": "putSymbol", "position": boardPosStr})
                 requests.post(playUrl, data={"action": "putSymbol", "position": boardPosStr})
         elif 'winner' in gameEvent:
             break
