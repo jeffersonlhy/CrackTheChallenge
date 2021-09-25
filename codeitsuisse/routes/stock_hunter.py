@@ -159,6 +159,7 @@ def stock_hunter():
             "gridMap": json.dumps(board_prettify),
             "minimumCost": cost
         })
+    logging.info(json.dumps(output))
     return json.dumps(output)
 
             
