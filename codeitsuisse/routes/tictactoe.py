@@ -122,7 +122,7 @@ def evaluateTic():
         return cells
 
     def isInvalidMove(coord, board):
-        return board[coord[0], coord[1]] != 0
+        return board[coord[0]][coord[1]] != 0
 
     def minimax(board, depth, player):
         if player == COMP:
