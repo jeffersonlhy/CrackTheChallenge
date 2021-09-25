@@ -151,7 +151,8 @@ def evaluateTic():
         return best
 
 
-    battleId = request.get_json()
+    battleId_raw = request.get_json()
+    battleId = battleId_raw['battleId']
     logging.info(f"session_id={battleId}")
     startUrl = f"https://cis2021-arena.herokuapp.com/tic-tac-toe/start/{battleId}"
     playUrl = f"https://cis2021-arena.herokuapp.com/tic-tac-toe/play/{battleId}"
