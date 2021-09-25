@@ -55,7 +55,7 @@ def evaluateTic():
         elif coord == (2, 2):
             return 'SE'
         else:
-            return 'Invalid'
+            return 'SE'
 
 
     def getCoordPos(direction, actionToCoord):
@@ -156,26 +156,28 @@ def evaluateTic():
     def minimax(isMaxTurn, maximizerMark, board):
         result = evaluate(board)
         sucessors = empty_cells(board)
-        if result == 1 or -1:
-            return 1 if maximizerMark == ME else -1
+        if result == 1 or result == -1:
+            return 1 if result == 1 and maximizerMark == ME else -1
+            
         elif len(sucessors) == 0: # DRAW
             return 0
 
         scores = []
         for move in sucessors:
             board[move[0]][move[1]] = maximizerMark
-            scores.append(minimax(not isMaxTurn, -maximizerMark, board))
+            scores.append(minimax(not isMaxTurn, maximizerMark, board))
             board[move[0]][move[1]] = 0 # undo
 
         return max(scores) if isMaxTurn else min(scores)
-    
+
     def make_best_move(board):
         bestScore = -infinity
-        bestMove = None
+        bestMove = (-1, -1)
         for move in empty_cells(board):
             row, col = move[0], move[1]
             board[row][col] = ME
-            score = minimax(False, COMP, board)
+            score = minimax(False, ME, board)
+            print(board, score)
             board[row][col] = 0 # undo
             if (score > bestScore):
                 bestScore = score
