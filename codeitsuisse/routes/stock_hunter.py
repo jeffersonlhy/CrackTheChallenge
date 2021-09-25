@@ -156,7 +156,7 @@ def stock_hunter():
                     queue.push((nextPos, accumulated + board_astar[y1][x1]), accumulated + board_astar[y1][x1])
 
         output.append({
-            "gridMap": json.dumps(board_prettify),
+            "gridMap": board_prettify,
             "minimumCost": cost
         })
     logging.info(json.dumps(output))
