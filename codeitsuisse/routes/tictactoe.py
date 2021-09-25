@@ -100,10 +100,13 @@ def evaluateTic():
 
     def evaluate(board):
         if wins(board, ME):
+            logging.info(f"EVALUATION: I won: {board}")
             return 1
         elif wins(board, COMP):
+            logging.info(f"EVALUATION: AI won: {board}")
             return -1
         else:
+            logging.info(f"EVALUATION: DRAW {board}")
             return 0
 
     def empty_cells(state):
@@ -150,6 +153,36 @@ def evaluateTic():
 
         return best
 
+        
+    def make_best_move(board):
+        bestScore = -infinity
+        bestMove = None
+        for move in empty_cells(board):
+            row, col = move[0], move[1]
+            board[row][col] = ME
+            score = minimax(False, COMP, board)
+            board[row][col] = 0 # undo
+            if (score > bestScore):
+                bestScore = score
+                bestMove = move # (x, y)
+        return bestMove
+
+    def minimax(isMaxTurn, maximizerMark, board):
+        result = evaluate(board)
+        sucessors = empty_cells(board)
+        if result == 1 or -1:
+            return 1 if maximizerMark == ME else -1
+        elif len(sucessors) == 0: # DRAW
+            return 0
+
+        scores = []
+        for move in sucessors:
+            board[move[0]][move[1]] = maximizerMark
+            scores.append(minimax(not isMaxTurn, -maximizerMark, board))
+            board[move[0]][move[1]] = 0 # undo
+
+        return max(scores) if isMaxTurn else min(scores)
+
 
     battleId_raw = request.get_json()
     battleId = battleId_raw['battleId']
@@ -193,7 +226,8 @@ def evaluateTic():
                 board[row][col] = COMP
                 boardForCal = board.copy()
                 logging.info(f"Before MiniMax after component moved {board}")
-                move = minimax(boardForCal, 9, ME)
+                # move = minimax(boardForCal, 9, ME)
+                move = make_best_move(boardForCal)
                 logging.info(f"myNewMove {move}")
                 myMove_row, myMove_col = move[0], move[1]
                 board[myMove_row][myMove_col] = ME
