@@ -66,7 +66,7 @@ def calScore(count):
     else:
         return count
 
-@app.route('/square', methods=['POST'])
+@app.route('/asteroid', methods=['POST'])
 def asteroid():
     data = request.get_json()
     output = []
