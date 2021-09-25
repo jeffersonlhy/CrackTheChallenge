@@ -159,12 +159,14 @@ def evaluateTic():
     logging.info(f"sending get request to ={startUrl}")
     response = requests.get(startUrl, stream=True, params={'Accept': 'text/event-stream', 'Connection': 'keep-alive'})
     client = sseclient.SSEClient(response)
+    myRole = None
     for event in client.events():
         logging.info(f"Recevied Events. {json.dumps(event.data)}")
         gameEvent = json.loads(event.data)
         # primary move
         if 'youAre' in gameEvent and gameEvent['youAre'] == "O":
             logging.info(f"I am O.")
+            myRole = "O"
             board[1][1] = ME
             requests.post(playUrl, data={"action": "putSymbol", "position": "C"})
         elif 'youAre' in gameEvent and gameEvent['youAre'] == "X":
@@ -172,6 +174,9 @@ def evaluateTic():
             continue
 
         elif 'player' in gameEvent and 'action' in gameEvent:
+            if gameEvent['player'] == myRole:
+                logging.info("Safely ignored the game news.")
+                continue
             if 'position' not in gameEvent:
                 logging.info(f"Flip Table.")
                 requests.post(playUrl, data={"action": "(╯°□°)╯︵ ┻━┻"})
@@ -186,7 +191,7 @@ def evaluateTic():
                 board[row][col] = COMP
                 boardForCal = board.copy()
                 logging.info(f"Before MiniMax after component moved {board}")
-                move = minimax(boardForCal, 8, ME)
+                move = minimax(boardForCal, 9, ME)
                 logging.info(f"myNewMove {move}")
                 myMove_row, myMove_col = move[0], move[1]
                 board[myMove_row][myMove_col] = ME
