@@ -155,7 +155,8 @@ def evaluateTic():
     logging.info(f"session_id={battleId}")
     startUrl = "https://cis2021-arena.herokuapp.com/tic-tac-toe/start/{battleId}"
     playUrl = "https://cis2021-arena.herokuapp.com/tic-tac-toe/play/{battleId}"
-    response = requests.get(startUrl, stream=True, headers={'Accept': 'text/event-stream'})
+    logging.info(f"sending get request to ={startUrl}")
+    response = requests.get(startUrl, stream=True, headers={'Accept': 'text/event-stream', 'Connection': 'keep-alive'})
     client = sseclient.SSEClient(response)
     for event in client.events():
         logging.info(f"Recevied Events. {json.dumps(event.data)}")
@@ -194,7 +195,7 @@ def evaluateTic():
             
         else:
             logging.info(f"Unknown incoming response {event.data}")
-
+    return json.dumps({'result': "ended"})
 
 
 
