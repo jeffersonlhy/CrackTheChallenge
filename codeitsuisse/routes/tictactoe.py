@@ -127,45 +127,31 @@ def evaluateTic():
     def isInvalidMove(coord, board):
         return board[coord[0]][coord[1]] != 0
 
-    def minimax(board, depth, player):
-        if player == ME:
-            best = [-1, -1, -infinity]
-        else:
-            best = [-1, -1, +infinity]
+    # def minimax(board, depth, player):
+    #     if player == ME:
+    #         best = [-1, -1, -infinity]
+    #     else:
+    #         best = [-1, -1, +infinity]
 
-        if depth == 0 or game_over(board):
-            score = evaluate(board)
-            return [-1, -1, score]
+    #     if depth == 0 or game_over(board):
+    #         score = evaluate(board)
+    #         return [-1, -1, score]
 
-        for cell in empty_cells(board):
-            x, y = cell[0], cell[1]
-            board[x][y] = player # make my move
-            score = minimax(board, depth - 1, -player)
-            board[x][y] = 0 # return to initial state
-            score[0], score[1] = x, y
+    #     for cell in empty_cells(board):
+    #         x, y = cell[0], cell[1]
+    #         board[x][y] = player # make my move
+    #         score = minimax(board, depth - 1, -player)
+    #         board[x][y] = 0 # return to initial state
+    #         score[0], score[1] = x, y
 
-            if player == ME:
-                if score[2] > best[2]:
-                    best = score  # max value
-            else:
-                if score[2] < best[2]:
-                    best = score  # min value
+    #         if player == ME:
+    #             if score[2] > best[2]:
+    #                 best = score  # max value
+    #         else:
+    #             if score[2] < best[2]:
+    #                 best = score  # min value
 
-        return best
-
-        
-    def make_best_move(board):
-        bestScore = -infinity
-        bestMove = None
-        for move in empty_cells(board):
-            row, col = move[0], move[1]
-            board[row][col] = ME
-            score = minimax(False, COMP, board)
-            board[row][col] = 0 # undo
-            if (score > bestScore):
-                bestScore = score
-                bestMove = move # (x, y)
-        return bestMove
+    #     return best
 
     def minimax(isMaxTurn, maximizerMark, board):
         result = evaluate(board)
@@ -182,6 +168,21 @@ def evaluateTic():
             board[move[0]][move[1]] = 0 # undo
 
         return max(scores) if isMaxTurn else min(scores)
+    
+    def make_best_move(board):
+        bestScore = -infinity
+        bestMove = None
+        for move in empty_cells(board):
+            row, col = move[0], move[1]
+            board[row][col] = ME
+            score = minimax(False, COMP, board)
+            board[row][col] = 0 # undo
+            if (score > bestScore):
+                bestScore = score
+                bestMove = move # (x, y)
+        return bestMove
+
+
 
 
     battleId_raw = request.get_json()
