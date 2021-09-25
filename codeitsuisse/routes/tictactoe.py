@@ -170,6 +170,7 @@ def evaluateTic():
             board[1][1] = ME
             requests.post(playUrl, data={"action": "putSymbol", "position": "C"})
         elif 'youAre' in gameEvent and gameEvent['youAre'] == "X":
+            myRole = "X"
             logging.info(f"I am the second player.")
             continue
 
