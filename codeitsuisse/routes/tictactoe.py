@@ -177,7 +177,7 @@ def evaluateTic():
         elif 'player' in gameEvent and 'action' in gameEvent:
             boardNewMove = getCoordPos(gameEvent['position'], actionToCoord)
             # Flip Table
-            if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove):
+            if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove, board):
                 logging.info(f"Flip Table.")
                 requests.post(playUrl, data=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
             else:
@@ -185,6 +185,7 @@ def evaluateTic():
                 board[row][col] = COMP
                 boardForCal = board.copy()
                 move = minimax(boardForCal, 8, ME)
+                logging.info(f"myNewMove {move}")
                 myMove_row, myMove_col = move[0], move[1]
                 board[myMove_row][myMove_col] = ME
                 # update to server
