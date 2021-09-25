@@ -4,4 +4,4 @@ import codeitsuisse.routes.square
 import codeitsuisse.routes.tictactoe
 import codeitsuisse.routes.asteroid
 import codeitsuisse.routes.stock_hunter
-
+import codeitsuisse.routes.parasite
