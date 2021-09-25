@@ -89,5 +89,5 @@ def asteroid():
         output.append(output_case)
 
     
-    return json.dumps(output_case)
+    return json.dumps(output)
 
