@@ -63,20 +63,20 @@ def stock_hunter():
         board_risk = []
         board_level = []
         board_dp = []
-        for i in range(data['targetPoint'][0]+1):
+        for i in range(data['targetPoint']['first'] + 1):
             widthList = []
             widthLevel = []
-            for j in range(data['targetPoint'][1] + 1):
+            for j in range(data['targetPoint']['second'] + 1):
                 widthLevel.append(0)
                 widthList.append([0, False])
             board_risk.append(widthList)
             board_level.append(widthLevel)
             board_dp.append(widthLevel)
 
-        entry_col = data['entryPoint'][0]
-        entry_row = data['entryPoint'][1]
-        target_col = data['targetPoint'][0]
-        target_row = data['targetPoint'][1]
+        entry_col = data['entryPoint']['first']
+        entry_row = data['entryPoint']['second']
+        target_col = data['targetPoint']['first']
+        target_row = data['targetPoint']['second']
 
         board_risk[entry_row][entry_col][1] = True
         board_risk[target_row][target_col][1] = True
