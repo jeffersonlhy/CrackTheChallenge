@@ -165,24 +165,20 @@ def evaluateTic():
         # primary move
         if 'youAre' in gameEvent and gameEvent['youAre'] == "O":
             logging.info(f"I am O.")
-            initmove = {
-                "action": "putSymbol",
-                "position": "C"
-            }
-            requests.post(playUrl, data=json.dumps(initmove))
+            requests.post(playUrl, data={"action": "putSymbol","position": "C"})
         elif 'youAre' in gameEvent and gameEvent['youAre'] == "X":
             logging.info(f"I am the second player.")
             continue
 
         elif 'player' in gameEvent and 'action' in gameEvent:
             if 'position' not in gameEvent:
-                requests.post(playUrl, data=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
+                requests.post(playUrl, data={"action": "(╯°□°)╯︵ ┻━┻"})
                 continue
             boardNewMove = getCoordPos(gameEvent['position'], actionToCoord)
             # Flip Table
             if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove, board):
                 logging.info(f"Flip Table.")
-                requests.post(playUrl, data=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
+                requests.post(playUrl, data={"action": "(╯°□°)╯︵ ┻━┻"})
             else:
                 row, col = boardNewMove
                 board[row][col] = COMP
@@ -194,13 +190,13 @@ def evaluateTic():
                 # update to server
                 boardPosStr = getBoardPosStr((myMove_row, myMove_col))
                 logging.info(f"Sending response. Position: {boardPosStr}")
-                requests.post(playUrl, data=json.dumps({"action": "putSymbol", "position": boardPosStr}))
+                requests.post(playUrl, data={"action": "putSymbol", "position": boardPosStr})
         elif 'winner' in gameEvent:
             break
             
         else:
             logging.info(f"Unknown incoming response {event.data}")
-            requests.post(playUrl, data=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
+            requests.post(playUrl, data={"action": "(╯°□°)╯︵ ┻━┻"})
     return json.dumps({'result': "ended"})
 
 
