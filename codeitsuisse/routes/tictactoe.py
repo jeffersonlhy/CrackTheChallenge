@@ -169,7 +169,7 @@ def evaluateTic():
                 "action": "putSymbol",
                 "position": "C"
             }
-            requests.post(playUrl, body=json.dumps(initmove))
+            requests.post(playUrl, data=json.dumps(initmove))
         elif 'youAre' in gameEvent and gameEvent['youAre'] == "X":
             logging.info(f"I am the second player.")
             continue
@@ -179,7 +179,7 @@ def evaluateTic():
             # Flip Table
             if boardNewMove == (-1, -1) or isInvalidMove(boardNewMove):
                 logging.info(f"Flip Table.")
-                requests.post(playUrl, body=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
+                requests.post(playUrl, data=json.dumps({"action": "(╯°□°)╯︵ ┻━┻"}))
             else:
                 row, col = boardNewMove
                 board[row][col] = COMP
@@ -190,7 +190,7 @@ def evaluateTic():
                 # update to server
                 boardPosStr = getBoardPosStr((myMove_row, myMove_col))
                 logging.info(f"Sending response. Position: {boardPosStr}")
-                requests.post(playUrl, body=json.dumps({"action": "putSymbol", "position": boardPosStr}))
+                requests.post(playUrl, data=json.dumps({"action": "putSymbol", "position": boardPosStr}))
         elif 'winner' in gameEvent:
             break
             
